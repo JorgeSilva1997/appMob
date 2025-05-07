@@ -1,0 +1,21 @@
+{
+  "hello": "Olá",
+  "inventory": {
+    "title": "Inventário",
+    "empty": "Nenhum item no inventário",
+    "addFirstItem": "Adicione seu primeiro item para começar",
+    "addItem": "Adicionar Item",
+    "productName": "Nome do Produto",
+    "quantity": "Quantidade",
+    "selectTag": "Selecionar Categoria",
+    "groceryStore": "Mercearia",
+    "cleaningProducts": "Produtos de Limpeza",
+    "hygieneProducts": "Produtos de Higiene",
+    "units": "unidades",
+    "delete": "Excluir",
+    "editItem": "Editar Item",
+    "save": "Salvar Alterações",
+    "itemNotFound": "Item não encontrado",
+    "freezer": "Congelador"
+  }
+} 

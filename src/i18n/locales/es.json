@@ -1,0 +1,21 @@
+{
+  "hello": "Hola",
+  "inventory": {
+    "title": "Inventario",
+    "empty": "No hay artículos en el inventario",
+    "addFirstItem": "Agrega tu primer artículo para comenzar",
+    "addItem": "Agregar Artículo",
+    "productName": "Nombre del Producto",
+    "quantity": "Cantidad",
+    "selectTag": "Seleccionar Etiqueta",
+    "groceryStore": "Tienda de Comestibles",
+    "cleaningProducts": "Productos de Limpieza",
+    "hygieneProducts": "Productos de Higiene",
+    "units": "unidades",
+    "delete": "Eliminar",
+    "editItem": "Editar Artículo",
+    "save": "Guardar Cambios",
+    "itemNotFound": "Artículo no encontrado",
+    "freezer": "Freezer"
+  }
+} 

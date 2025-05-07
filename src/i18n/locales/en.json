@@ -1,0 +1,21 @@
+{
+  "hello": "Hello",
+  "inventory": {
+    "title": "Inventory",
+    "empty": "No items in inventory",
+    "addFirstItem": "Add your first item to get started",
+    "addItem": "Add Item",
+    "productName": "Product Name",
+    "quantity": "Quantity",
+    "selectTag": "Select Tag",
+    "groceryStore": "Grocery Store",
+    "cleaningProducts": "Cleaning Products",
+    "hygieneProducts": "Hygiene Products",
+    "units": "units",
+    "delete": "Delete",
+    "editItem": "Edit Item",
+    "save": "Save Changes",
+    "itemNotFound": "Item not found",
+    "freezer": "Freezer"
+  }
+} 
