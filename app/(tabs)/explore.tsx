@@ -1,31 +1,65 @@
+import { Button } from '@/components/Button';
+import { ModalError } from '@/components/ModalError';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useTags } from '@/hooks/useTags';
 import { useInventoryStore } from '@/store/useInventoryStore';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
-
-type Tag = 'Grocery Store' | 'Cleaning Products' | 'Hygiene Products';
+import { StyleSheet, TextInput, View } from 'react-native';
 
 export default function TabTwoScreen() {
   const { t } = useTranslation();
   const addItem = useInventoryStore((state) => state.addItem);
+  const { getAllTags } = useTags();
   const [name, setName] = useState('');
   const [quantity, setQuantity] = useState('');
-  const [tag, setTag] = useState<Tag>('Grocery Store');
+  const [tag, setTag] = useState(getAllTags()[0].id);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalMessage, setModalMessage] = useState('');
+
+  const showError = (title: string, message: string) => {
+    setModalTitle(title);
+    setModalMessage(message);
+    setModalVisible(true);
+  };
 
   const handleSubmit = () => {
-    if (name.trim() && quantity.trim()) {
-      addItem({
-        name: name.trim(),
-        quantity: parseInt(quantity, 10),
-        tag,
-      });
-      setName('');
-      setQuantity('');
-      setTag('Grocery Store');
+    if (!name.trim()) {
+      showError(
+        t('inventory.validationError'),
+        t('inventory.nameRequired')
+      );
+      return;
     }
+
+    if (!quantity.trim()) {
+      showError(
+        t('inventory.validationError'),
+        t('inventory.quantityRequired')
+      );
+      return;
+    }
+
+    const quantityNumber = parseInt(quantity, 10);
+    if (isNaN(quantityNumber) || quantityNumber <= 0) {
+      showError(
+        t('inventory.validationError'),
+        t('inventory.quantityInvalid')
+      );
+      return;
+    }
+
+    addItem({
+      name: name.trim(),
+      quantity: quantityNumber,
+      tag,
+    });
+    setName('');
+    setQuantity('');
+    setTag(getAllTags()[0].id);
   };
 
   return (
@@ -60,23 +94,34 @@ export default function TabTwoScreen() {
           <View style={styles.pickerContainer}>
             <Picker
               selectedValue={tag}
-              onValueChange={(value) => setTag(value as Tag)}
+              onValueChange={(value) => setTag(value)}
               style={styles.picker}
             >
-              <Picker.Item label={t('inventory.groceryStore')} value="Grocery Store" />
-              <Picker.Item label={t('inventory.cleaningProducts')} value="Cleaning Products" />
-              <Picker.Item label={t('inventory.hygieneProducts')} value="Hygiene Products" />
-              <Picker.Item label={t('inventory.freezer')} value="Freezer" />
+              {getAllTags().map((tag) => (
+                <Picker.Item
+                  key={tag.id}
+                  label={tag.label}
+                  value={tag.id}
+                />
+              ))}
             </Picker>
           </View>
         </View>
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-            <ThemedText style={styles.buttonText}>{t('inventory.save')}</ThemedText>
-          </TouchableOpacity>
+          <Button
+            title={t('inventory.save')}
+            onPress={handleSubmit}
+          />
         </View>
       </View>
+
+      <ModalError
+        visible={modalVisible}
+        title={modalTitle}
+        message={modalMessage}
+        onClose={() => setModalVisible(false)}
+      />
     </ThemedView>
   );
 }
@@ -89,7 +134,6 @@ const styles = StyleSheet.create({
   title: {
     margin: 16,
     marginTop: 24,
-    // color: 'black',
   },
   form: {
     padding: 16,
@@ -117,19 +161,9 @@ const styles = StyleSheet.create({
   },
   picker: {
     height: 50,
+    backgroundColor: '#999',
   },
   buttonContainer: {
     marginTop: 24,
-  },
-  button: {
-    backgroundColor: '#4ECDC4',
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
   },
 });

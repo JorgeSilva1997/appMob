@@ -9,13 +9,26 @@
     "quantity": "Cantidad",
     "selectTag": "Seleccionar Etiqueta",
     "groceryStore": "Tienda de Comestibles",
-    "cleaningProducts": "Productos de Limpieza",
+    "cleaningProducts": "Productos de Limpeza",
     "hygieneProducts": "Productos de Higiene",
     "units": "unidades",
     "delete": "Eliminar",
     "editItem": "Editar Artículo",
     "save": "Guardar Cambios",
     "itemNotFound": "Artículo no encontrado",
-    "freezer": "Freezer"
+    "freezer": "Freezer",
+    "listshop": "Lista de Compras",
+    "validationError": "Error de Validación",
+    "nameRequired": "Por favor, ingrese el nombre del producto",
+    "quantityRequired": "Por favor, ingrese la cantidad",
+    "quantityInvalid": "La cantidad debe ser mayor que cero",
+    "ok": "OK"
+  },
+  "listshop": {
+    "comingSoon": "¡Próximamente!",
+    "description": "Estamos trabajando en una nueva función para ayudarte a gestionar tus compras de manera más eficiente.",
+    "feature1": "Crea listas de compras personalizadas",
+    "feature2": "Organiza los artículos por categoría",
+    "feature3": "Sincroniza con tu inventario"
   }
 } 

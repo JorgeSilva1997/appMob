@@ -1,17 +1,23 @@
 import { InventoryItem } from '@/components/InventoryItem';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { useInventoryStore } from '@/store/useInventoryStore';
+import { useGroupedInventory } from '@/hooks/useGroupedInventory';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, StyleSheet } from 'react-native';
 
 export default function HomeScreen() {
   const { t } = useTranslation();
-  const items = useInventoryStore((state) => state.items);
+  const { sections, items } = useGroupedInventory();
+
+  const renderSectionHeader = (title: string) => (
+    <ThemedView style={styles.sectionHeader}>
+      <ThemedText style={styles.sectionTitle}>{title}</ThemedText>
+    </ThemedView>
+  );
 
   return (
     <ThemedView style={styles.container}>
-      {/* <LanguageSelector /> */}
       <ThemedText type="title" style={styles.title}>{t('inventory.title')}</ThemedText>
       {items.length === 0 ? (
         <ThemedView style={styles.emptyState}>
@@ -24,15 +30,21 @@ export default function HomeScreen() {
         </ThemedView>
       ) : (
         <FlatList
-          data={items}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <InventoryItem
-              id={item.id}
-              name={item.name}
-              quantity={item.quantity}
-              tag={item.tag}
-            />
+          data={sections}
+          keyExtractor={(section) => section.title}
+          renderItem={({ item: section }) => (
+            <>
+              {section.data.length > 0 && renderSectionHeader(section.title)}
+              {section.data.map((item) => (
+                <InventoryItem
+                  key={item.id}
+                  id={item.id}
+                  name={item.name}
+                  quantity={item.quantity}
+                  tag={item.tag}
+                />
+              ))}
+            </>
           )}
           contentContainerStyle={styles.listContent}
         />
@@ -49,7 +61,6 @@ const styles = StyleSheet.create({
   title: {
     margin: 16,
     marginTop: 24,
-    // color: 'black',
   },
   listContent: {
     paddingBottom: 16,
@@ -66,6 +77,16 @@ const styles = StyleSheet.create({
   },
   emptyStateText: {
     textAlign: 'center',
+    color: '#666',
+  },
+  sectionHeader: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: '#F5F5F5',
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: '600',
     color: '#666',
   },
 });

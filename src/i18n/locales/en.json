@@ -16,6 +16,19 @@
     "editItem": "Edit Item",
     "save": "Save Changes",
     "itemNotFound": "Item not found",
-    "freezer": "Freezer"
+    "freezer": "Freezer",
+    "listshop": "List Shop",
+    "validationError": "Validation Error",
+    "nameRequired": "Please enter the product name",
+    "quantityRequired": "Please enter the quantity",
+    "quantityInvalid": "Quantity must be greater than zero",
+    "ok": "OK"
+  },
+  "listshop": {
+    "comingSoon": "Coming Soon!",
+    "description": "We're working on a new feature to help you manage your shopping more efficiently.",
+    "feature1": "Create custom shopping lists",
+    "feature2": "Organize items by category",
+    "feature3": "Sync with your inventory"
   }
 } 

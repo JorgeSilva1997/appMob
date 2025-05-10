@@ -1,5 +1,6 @@
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useTags } from '@/hooks/useTags';
 import { useInventoryStore } from '@/store/useInventoryStore';
 import { Picker } from '@react-native-picker/picker';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -7,27 +8,26 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
-type Tag = 'Grocery Store' | 'Cleaning Products' | 'Hygiene Products' | 'Freezer';
-
 export default function EditItemScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const items = useInventoryStore((state) => state.items);
   const updateItem = useInventoryStore((state) => state.updateItem);
+  const { getAllTags } = useTags();
 
   const item = items.find((i) => i.id === id);
 
   const [name, setName] = useState(item?.name || '');
-  const [quantity, setQuantity] = useState(item?.quantity.toString() || '');
-  const [tag, setTag] = useState<Tag>(item?.tag || 'Grocery Store');
+  const [quantity, setQuantity] = useState(item?.quantity?.toString() || '');
+  const [tag, setTag] = useState(item?.tag || getAllTags()[0].id);
 
   const handleSubmit = () => {
     if (name.trim() && quantity.trim() && item) {
       updateItem(item.id, {
         name: name.trim(),
         quantity: parseInt(quantity, 10),
-        tag: tag as 'Grocery Store' | 'Cleaning Products' | 'Hygiene Products',
+        tag,
       });
       router.back();
     }
@@ -73,13 +73,16 @@ export default function EditItemScreen() {
           <View style={styles.pickerContainer}>
             <Picker
               selectedValue={tag}
-              onValueChange={(value) => setTag(value as Tag)}
+              onValueChange={(value) => setTag(value)}
               style={styles.picker}
             >
-              <Picker.Item label={t('inventory.groceryStore')} value="Grocery Store" />
-              <Picker.Item label={t('inventory.cleaningProducts')} value="Cleaning Products" />
-              <Picker.Item label={t('inventory.hygieneProducts')} value="Hygiene Products" />
-              <Picker.Item label={t('inventory.freezer')} value="Freezer" />
+              {getAllTags().map((tag) => (
+                <Picker.Item
+                  key={tag.id}
+                  label={tag.label}
+                  value={tag.id}
+                />
+              ))}
             </Picker>
           </View>
         </View>
@@ -129,6 +132,7 @@ const styles = StyleSheet.create({
   },
   picker: {
     height: 50,
+    backgroundColor: '#999',
   },
   buttonContainer: {
     marginTop: 24,

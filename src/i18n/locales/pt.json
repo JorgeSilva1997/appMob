@@ -3,7 +3,7 @@
   "inventory": {
     "title": "Inventário",
     "empty": "Nenhum item no inventário",
-    "addFirstItem": "Adicione seu primeiro item para começar",
+    "addFirstItem": "Adicione o seu primeiro item para começar",
     "addItem": "Adicionar Item",
     "productName": "Nome do Produto",
     "quantity": "Quantidade",
@@ -14,8 +14,21 @@
     "units": "unidades",
     "delete": "Excluir",
     "editItem": "Editar Item",
-    "save": "Salvar Alterações",
+    "save": "Guardar Alterações",
     "itemNotFound": "Item não encontrado",
-    "freezer": "Congelador"
+    "freezer": "Congelador",
+    "listshop": "Lista de Compras",
+    "validationError": "Erro de Validação",
+    "nameRequired": "Por favor, insira o nome do produto",
+    "quantityRequired": "Por favor, insira a quantidade",
+    "quantityInvalid": "A quantidade deve ser maior que zero",
+    "ok": "OK"
+  },
+  "listshop": {
+    "comingSoon": "Em Desenvolvimento!",
+    "description": "A desenvolver uma nova funcionalidade para ajudar a organizar as compras de uma forma mais eficiente.",
+    "feature1": "Crie listas de compras personalizadas",
+    "feature2": "Organize os seus itens por categoria",
+    "feature3": "Sincronize com os seus itens do inventário"
   }
 } 
