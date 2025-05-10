@@ -1,50 +1,112 @@
-# Welcome to your Expo app 👋
+# 📱 AppMob - Your Smart Inventory Manager
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+AppMob is a powerful mobile application designed to help you manage your inventory efficiently. With features like item categorization, quantity tracking, and multi-language support, it's the perfect tool for keeping your items organized.
 
-## Get started
+## 🌟 Features
 
-1. Install dependencies
+- 📦 **Smart Inventory Management**
+  - Add, edit, and remove items
+  - Track quantities in real-time
+  - Categorize items with custom tags
+  - Quick quantity adjustments
 
+- 🌍 **Multi-language Support**
+  - English
+  - Portuguese
+  - Spanish
+
+- 🎨 **User-friendly Interface**
+  - Clean and intuitive design
+  - Easy navigation
+  - Responsive layout
+  - Beautiful animations
+
+- 🔄 **Coming Soon**
+  - Shopping list management
+  - Category-based organization
+  - Inventory synchronization
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn
+- Expo CLI
+- Android Studio (for Android development)
+- Xcode (for iOS development, macOS only)
+
+### Installation
+
+1. Clone the repository
    ```bash
-   npm install
+   git clone https://github.com/yourusername/appMob.git
+   cd appMob
    ```
 
-2. Start the app
+2. Install dependencies
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
+3. Start the development server
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+### Running the App
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+You can run the app in several ways:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- **Expo Go**: Scan the QR code with the Expo Go app on your device
+- **Android Emulator**: Press 'a' in the terminal after starting the server
+- **iOS Simulator**: Press 'i' in the terminal after starting the server (macOS only)
+- **Web**: Press 'w' in the terminal after starting the server
 
-## Get a fresh project
+### Building for Production
 
-When you're ready, run:
+To create an APK for Android:
 
 ```bash
-npm run reset-project
+eas build --platform android --local --profile preview
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+The APK will be generated in the `android/app/build/outputs/apk/release/` directory.
 
-## Learn more
+## 🛠️ Development
 
-To learn more about developing your project with Expo, look at the following resources:
+### Project Structure
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```
+appMob/
+├── app/              # Main application code
+├── components/       # Reusable components
+├── hooks/           # Custom hooks
+├── store/           # State management
+├── src/
+│   ├── i18n/        # Internationalization
+│   └── constants/   # App constants
+└── assets/          # Images, fonts, etc.
+```
 
-## Join the community
+### Available Scripts
 
-Join our community of developers creating universal apps.
+- `npm start` - Start the development server
+- `npm run android` - Run on Android
+- `npm run ios` - Run on iOS
+- `npm run web` - Run on web
+- `npm run lint` - Run linter
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📧 Contact
+
+For any questions or suggestions, please open an issue in the repository.

@@ -36,4 +36,14 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
+# Build artifacts
+android/app/build/
+*.apk
+*.aab
+*.apks
+*.apk.idsig
+
+# EAS build
+eas-build-*.json
+
 app-example
