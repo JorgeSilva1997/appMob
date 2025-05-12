@@ -30,5 +30,16 @@
     "feature1": "Create custom shopping lists",
     "feature2": "Organize items by category",
     "feature3": "Sync with your inventory"
+  },
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "login": "Login",
+    "comingSoon": "Coming Soon!",
+    "description": "We're working on a new feature to help you manage your shopping more efficiently.",
+    "feature1": "Create custom shopping lists",
+    "feature2": "Organize items by category",
+    "feature3": "Sync with your inventory"
   }
 } 

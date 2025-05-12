@@ -96,6 +96,7 @@ export default function TabTwoScreen() {
               selectedValue={tag}
               onValueChange={(value) => setTag(value)}
               style={styles.picker}
+              mode="dialog"
             >
               {getAllTags().map((tag) => (
                 <Picker.Item
@@ -161,7 +162,8 @@ const styles = StyleSheet.create({
   },
   picker: {
     height: 50,
-    backgroundColor: '#999',
+    backgroundColor: '#fff',
+    color: '#000',
   },
   buttonContainer: {
     marginTop: 24,

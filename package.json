@@ -1,5 +1,5 @@
 {
-  "name": "with-firebase-saml-login",
+  "name": "stock-it",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {

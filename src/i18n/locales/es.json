@@ -30,5 +30,16 @@
     "feature1": "Crea listas de compras personalizadas",
     "feature2": "Organiza los artículos por categoría",
     "feature3": "Sincroniza con tu inventario"
+  },
+  "login": {
+    "title": "Iniciar Sesión",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "login": "Iniciar Sesión",
+    "comingSoon": "¡Próximamente!",
+    "description": "Estamos trabajando en una nueva función para ayudarte a gestionar tus compras de manera más eficiente.",
+    "feature1": "Crea listas de compras personalizadas",
+    "feature2": "Organiza los artículos por categoría",
+    "feature3": "Sincroniza con tu inventario"
   }
 } 

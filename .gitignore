@@ -31,6 +31,7 @@ yarn-error.*
 *.pem
 
 # local env files
+.env
 .env*.local
 
 # typescript
@@ -47,3 +48,34 @@ android/app/build/
 eas-build-*.json
 
 app-example
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Android/IntelliJ
+build/
+.idea
+.gradle
+local.properties
+*.iml
+*.hprof
+.cxx/
+*.keystore
+!debug.keystore
+
+# iOS
+ios/Pods/
+ios/build/
+ios/Podfile.lock
+ios/Podfile
+ios/*.xcworkspace
+ios/*.xcodeproj
+ios/*.pbxuser
+ios/*.mode1v3
+ios/*.mode2v3
+ios/*.perspectivev3
+ios/*.xccheckout
+ios/*.moved-aside
+ios/DerivedData/
+ios/.hmap
+ios/.svn/
+ios/.DS_Store
