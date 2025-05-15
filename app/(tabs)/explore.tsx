@@ -64,56 +64,58 @@ export default function TabTwoScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="title" style={styles.title}>{t('inventory.addItem')}</ThemedText>
-      <View style={styles.form}>
-        <View style={styles.inputGroup}>
-          <ThemedText style={styles.label}>{t('inventory.productName')}</ThemedText>
-          <TextInput
-            style={styles.input}
-            value={name}
-            onChangeText={setName}
-            placeholder={t('inventory.productName')}
-            placeholderTextColor="#999"
-          />
-        </View>
-
-        <View style={styles.inputGroup}>
-          <ThemedText style={styles.label}>{t('inventory.quantity')}</ThemedText>
-          <TextInput
-            style={styles.input}
-            value={quantity}
-            onChangeText={setQuantity}
-            placeholder={t('inventory.quantity')}
-            placeholderTextColor="#999"
-            keyboardType="numeric"
-          />
-        </View>
-
-        <View style={styles.inputGroup}>
-          <ThemedText style={styles.label}>{t('inventory.selectTag')}</ThemedText>
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={tag}
-              onValueChange={(value) => setTag(value)}
-              style={styles.picker}
-              mode="dialog"
-            >
-              {getAllTags().map((tag) => (
-                <Picker.Item
-                  key={tag.id}
-                  label={tag.label}
-                  value={tag.id}
-                />
-              ))}
-            </Picker>
+      <View style={styles.contentContainer}>
+        <ThemedText type="title" style={styles.title}>{t('inventory.addItem')}</ThemedText>
+        <View style={styles.form}>
+          <View style={styles.inputGroup}>
+            <ThemedText style={styles.label}>{t('inventory.productName')}</ThemedText>
+            <TextInput
+              style={styles.input}
+              value={name}
+              onChangeText={setName}
+              placeholder={t('inventory.productName')}
+              placeholderTextColor="#999"
+            />
           </View>
-        </View>
 
-        <View style={styles.buttonContainer}>
-          <Button
-            title={t('inventory.save')}
-            onPress={handleSubmit}
-          />
+          <View style={styles.inputGroup}>
+            <ThemedText style={styles.label}>{t('inventory.quantity')}</ThemedText>
+            <TextInput
+              style={styles.input}
+              value={quantity}
+              onChangeText={setQuantity}
+              placeholder={t('inventory.quantity')}
+              placeholderTextColor="#999"
+              keyboardType="numeric"
+            />
+          </View>
+
+          <View style={styles.inputGroup}>
+            <ThemedText style={styles.label}>{t('inventory.selectTag')}</ThemedText>
+            <View style={styles.pickerContainer}>
+              <Picker
+                selectedValue={tag}
+                onValueChange={(value) => setTag(value)}
+                style={styles.picker}
+                mode="dialog"
+              >
+                {getAllTags().map((tag) => (
+                  <Picker.Item
+                    key={tag.id}
+                    label={tag.label}
+                    value={tag.id}
+                  />
+                ))}
+              </Picker>
+            </View>
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <Button
+              title={t('inventory.save')}
+              onPress={handleSubmit}
+            />
+          </View>
         </View>
       </View>
 
@@ -132,9 +134,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F5F5F5',
   },
+  contentContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
   title: {
     margin: 16,
     marginTop: 24,
+    textAlign: 'center',
   },
   form: {
     padding: 16,

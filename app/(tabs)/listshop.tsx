@@ -1,32 +1,59 @@
-import { ButtonAdd } from '@/components/ButtonAdd';
 import { ListShopItem } from '@/components/ListShopItem';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useTags } from '@/hooks/useTags';
 import { useListShopStore } from '@/store/useListShopStore';
+import { Ionicons } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
-import { useMemo, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FlatList, Modal, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import { Animated, FlatList, Modal, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function ListShop() {
   const { t } = useTranslation();
   const { getAllTags } = useTags();
   const items = useListShopStore((state) => state.items);
   const addItem = useListShopStore((state) => state.addItem);
+  const clear = useListShopStore((state) => state.clear);
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [name, setName] = useState('');
   const allTags = getAllTags();
   const [tag, setTag] = useState(allTags[0]?.id || '');
+  const [isFabExpanded, setIsFabExpanded] = useState(false);
+  const animation = useState(new Animated.Value(0))[0];
 
-  // Move checked items to the end
-  const sortedItems = useMemo(() => {
-    return [
-      ...items.filter((item) => !checkedIds.includes(item.id)),
-      ...items.filter((item) => checkedIds.includes(item.id)),
-    ];
-  }, [items, checkedIds]);
+  // Reset FAB state when screen comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      setIsFabExpanded(false);
+      animation.setValue(0);
+    }, [animation])
+  );
+
+  // Group items by tag
+  const groupedItems = useMemo(() => {
+    const groups = items.reduce((acc, item) => {
+      const tagLabel = allTags.find(t => t.id === item.tag)?.label || 'Other';
+      if (!acc[tagLabel]) {
+        acc[tagLabel] = [];
+      }
+      acc[tagLabel].push(item);
+      return acc;
+    }, {} as Record<string, typeof items>);
+
+    // Convert to array format for FlatList
+    return Object.entries(groups).map(([title, data]) => ({
+      title,
+      data: data.sort((a, b) => {
+        const aChecked = checkedIds.includes(a.id);
+        const bChecked = checkedIds.includes(b.id);
+        if (aChecked === bChecked) return 0;
+        return aChecked ? 1 : -1;
+      })
+    }));
+  }, [items, checkedIds, allTags]);
 
   const handleToggle = (id: string) => {
     setCheckedIds((prev) =>
@@ -47,24 +74,90 @@ export default function ListShop() {
     }
   };
 
+  const toggleFab = () => {
+    const toValue = isFabExpanded ? 0 : 1;
+    Animated.spring(animation, {
+      toValue,
+      friction: 5,
+      useNativeDriver: true,
+    }).start();
+    setIsFabExpanded(!isFabExpanded);
+  };
+
+  const handleClear = () => {
+    clear();
+    setCheckedIds([]);
+    setIsFabExpanded(false);
+  };
+
+  const renderSectionHeader = (title: string) => (
+    <ThemedView style={styles.sectionHeader}>
+      <ThemedText style={styles.sectionTitle}>{title}</ThemedText>
+    </ThemedView>
+  );
+
+  const renderFab = () => {
+    const addButtonStyle = {
+      transform: [{
+        translateY: animation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, -120]
+        })
+      }]
+    };
+
+    const clearButtonStyle = {
+      transform: [{
+        translateY: animation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, -60]
+        })
+      }]
+    };
+
+    return (
+      <View style={styles.fabContainer}>
+        <Animated.View style={[styles.fabButton, styles.fabAdd, addButtonStyle]}>
+          <TouchableOpacity onPress={handleAdd}>
+            <Ionicons name="add" size={24} color="#fff" />
+          </TouchableOpacity>
+        </Animated.View>
+        <Animated.View style={[styles.fabButton, styles.fabClear, clearButtonStyle]}>
+          <TouchableOpacity onPress={handleClear}>
+            <Ionicons name="trash-outline" size={24} color="#fff" />
+          </TouchableOpacity>
+        </Animated.View>
+        <TouchableOpacity style={[styles.fabButton, styles.fabMain]} onPress={toggleFab}>
+          <Ionicons name={isFabExpanded ? "close" : "add"} size={24} color="#fff" />
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   return (
     <ThemedView style={styles.container}>
       <ThemedText type="title" style={styles.title}>{t('inventory.listshop')}</ThemedText>
       <FlatList
-        data={sortedItems}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <ListShopItem
-            id={item.id}
-            name={item.name}
-            tag={item.tag}
-            checked={checkedIds.includes(item.id)}
-            onToggle={handleToggle}
-          />
+        data={groupedItems}
+        keyExtractor={(section) => section.title}
+        renderItem={({ item: section }) => (
+          <>
+            {section.data.length > 0 && renderSectionHeader(section.title)}
+            {section.data.map((item) => (
+              <ListShopItem
+                key={item.id}
+                id={item.id}
+                name={item.name}
+                tag={item.tag}
+                checked={checkedIds.includes(item.id)}
+                onToggle={handleToggle}
+              />
+            ))}
+          </>
         )}
         contentContainerStyle={styles.listContent}
       />
-      <ButtonAdd onPress={handleAdd} />
+      {renderFab()}
       <Modal
         visible={modalVisible}
         animationType="slide"
@@ -126,6 +219,16 @@ const styles = StyleSheet.create({
   },
   listContent: {
     paddingBottom: 100,
+  },
+  sectionHeader: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: '#F5F5F5',
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#666',
   },
   modalOverlay: {
     flex: 1,
@@ -200,5 +303,37 @@ const styles = StyleSheet.create({
   saveText: {
     color: '#fff',
     fontWeight: '700',
+  },
+  fabContainer: {
+    position: 'absolute',
+    right: 16,
+    bottom: 16,
+    alignItems: 'center',
+  },
+  fabButton: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  fabMain: {
+    backgroundColor: 'gray',
+  },
+  fabAdd: {
+    backgroundColor: '#4ECDC4',
+    position: 'absolute',
+  },
+  fabClear: {
+    backgroundColor: '#FF6B6B',
+    position: 'absolute',
   },
 });

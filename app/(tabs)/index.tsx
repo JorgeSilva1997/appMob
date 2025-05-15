@@ -2,9 +2,11 @@ import { InventoryItem } from '@/components/InventoryItem';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useGroupedInventory } from '@/hooks/useGroupedInventory';
+import { router } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, Pressable, StyleSheet } from 'react-native';
+import Animated, { FadeIn, SlideOutLeft } from 'react-native-reanimated';
 
 export default function HomeScreen() {
   const { t } = useTranslation();
@@ -15,6 +17,13 @@ export default function HomeScreen() {
       <ThemedText style={styles.sectionTitle}>{title}</ThemedText>
     </ThemedView>
   );
+
+  const handleItemPress = (id: string) => {
+    router.push({
+      pathname: '/edit-item',
+      params: { id }
+    });
+  };
 
   return (
     <ThemedView style={styles.container}>
@@ -36,13 +45,26 @@ export default function HomeScreen() {
             <>
               {section.data.length > 0 && renderSectionHeader(section.title)}
               {section.data.map((item) => (
-                <InventoryItem
+                <Animated.View
                   key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  quantity={item.quantity}
-                  tag={item.tag}
-                />
+                  entering={FadeIn}
+                  exiting={SlideOutLeft.duration(300)}
+                >
+                  <Pressable
+                    onPress={() => handleItemPress(item.id)}
+                    style={({ pressed }) => [
+                      styles.itemContainer,
+                      pressed && styles.itemPressed
+                    ]}
+                  >
+                    <InventoryItem
+                      id={item.id}
+                      name={item.name}
+                      quantity={item.quantity}
+                      tag={item.tag}
+                    />
+                  </Pressable>
+                </Animated.View>
               ))}
             </>
           )}
@@ -88,5 +110,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#666',
+  },
+  itemContainer: {
+    backgroundColor: '#F5F5F5',
+    // borderRadius: 12,
+    // marginHorizontal: 16,
+    // marginVertical: 8,
+    overflow: 'hidden',
+  },
+  itemPressed: {
+    opacity: 0.7,
+    transform: [{ scale: 0.98 }],
   },
 });
