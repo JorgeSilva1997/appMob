@@ -35,7 +35,7 @@ AppMob is a powerful mobile application designed to help you manage your invento
 - 🔄 **Coming Soon**
   - Inventory synchronization
   - Cloud backup
-  - Barcode scanning
+  - Search functionality in inventory list
   - Shopping list sharing
 
 ## 🚀 Getting Started
@@ -87,12 +87,25 @@ To create an APK for Android:
    npm install -g eas-cli
    ```
 
-2. Build the APK:
+2. Create your own EAS project:
+   ```bash
+   eas init
+   ```
+   This will create a new project ID for your build.
+
+3. Update the `app.json` file:
+   - Replace the existing `projectId` in the `eas` section with your new project ID
+   - Update the `package` name in the `android` section if needed
+   - Update the `scheme` if needed
+
+4. Build the APK:
    ```bash
    eas build --platform android --local --profile preview
    ```
 
 The APK will be generated in the `android/app/build/outputs/apk/release/` directory.
+
+> **Important Note**: The `projectId` in the repository's `app.json` is specific to the original project. You must create your own EAS project and update the `projectId` before building. This is a security measure to prevent unauthorized access to the original project's build resources.
 
 ## 🛠️ Development
 
