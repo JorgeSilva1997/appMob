@@ -1,9 +1,10 @@
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useTags } from '@/hooks/useTags';
+import { useListShopStore } from '@/store/useListShopStore';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
 interface ListShopItemProps {
   id: string;
@@ -15,9 +16,21 @@ interface ListShopItemProps {
 
 export function ListShopItem({ id, name, tag, checked, onToggle }: ListShopItemProps) {
   const { getTagLabel, getTagColor } = useTags();
+  const togglePosition = useListShopStore((state) => state.togglePosition);
+  const isAtBottom = useListShopStore((state) => 
+    state.items.find(item => item.id === id)?.isAtBottom || false
+  );
+
+  const handlePress = () => {
+    togglePosition(id);
+  };
 
   return (
-    <ThemedView style={[styles.itemContainer, checked && styles.checkedItem]}>
+    <ThemedView style={[
+      styles.itemContainer, 
+      checked && styles.checkedItem,
+      isAtBottom && styles.bottomItem
+    ]}>
       <TouchableOpacity onPress={() => onToggle(id)} style={styles.checkboxContainer}>
         <Ionicons
           name={checked ? 'checkmark-circle' : 'ellipse-outline'}
@@ -25,10 +38,10 @@ export function ListShopItem({ id, name, tag, checked, onToggle }: ListShopItemP
           color={checked ? '#4ECDC4' : '#bbb'}
         />
       </TouchableOpacity>
-      <View style={styles.textContainer}>
+      <TouchableOpacity onPress={handlePress} style={styles.textContainer}>
         <ThemedText style={[styles.itemName, checked && styles.checkedText]}>{name}</ThemedText>
         <ThemedText style={styles.itemTag}>{getTagLabel(tag)}</ThemedText>
-      </View>
+      </TouchableOpacity>
     </ThemedView>
   );
 }
@@ -53,6 +66,11 @@ const styles = StyleSheet.create({
     opacity: 0.5,
     backgroundColor: '#E8F6F5',
   },
+  bottomItem: {
+    backgroundColor: '#F8F8F8',
+    borderLeftWidth: 4,
+    borderLeftColor: '#4ECDC4',
+  },
   checkboxContainer: {
     marginRight: 16,
   },
@@ -75,4 +93,4 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 1,
   },
-}); 
+});

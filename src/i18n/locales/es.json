@@ -29,7 +29,10 @@
     "description": "Estamos trabajando en una nueva función para ayudarte a gestionar tus compras de manera más eficiente.",
     "feature1": "Crea listas de compras personalizadas",
     "feature2": "Organiza los artículos por categoría",
-    "feature3": "Sincroniza con tu inventario"
+    "feature3": "Sincroniza con tu inventario",
+    "error": "Error",
+    "errorMessage": "El artículo que intentaste agregar ya existe.",
+    "button": "OK"
   },
   "login": {
     "title": "Iniciar Sesión",

@@ -29,7 +29,10 @@
     "description": "We're working on a new feature to help you manage your shopping more efficiently.",
     "feature1": "Create custom shopping lists",
     "feature2": "Organize items by category",
-    "feature3": "Sync with your inventory"
+    "feature3": "Sync with your inventory",
+    "error": "Error",
+    "errorMessage": "The item you tried to add already exists.",
+    "button": "OK"
   },
   "login": {
     "title": "Login",

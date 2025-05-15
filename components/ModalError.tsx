@@ -1,16 +1,16 @@
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { Modal, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 interface ModalErrorProps {
   visible: boolean;
-  title: string;
-  message: string;
   onClose: () => void;
 }
 
-export function ModalError({ visible, title, message, onClose }: ModalErrorProps) {
+export function ModalError({ visible, onClose }: ModalErrorProps) {
+  const { t } = useTranslation();
   return (
     <Modal
       visible={visible}
@@ -23,10 +23,10 @@ export function ModalError({ visible, title, message, onClose }: ModalErrorProps
           <View style={styles.iconContainer}>
             <Ionicons name="alert-circle" size={40} color="#FF6B6B" />
           </View>
-          <ThemedText type="title" style={styles.title}>{title}</ThemedText>
-          <ThemedText style={styles.message}>{message}</ThemedText>
+          <ThemedText type="title" style={styles.title}>{t('listshop.error')}</ThemedText>
+          <ThemedText style={styles.message}>{t('listshop.errorMessage')}</ThemedText>
           <TouchableOpacity style={styles.button} onPress={onClose}>
-            <ThemedText style={styles.buttonText}>OK</ThemedText>
+            <ThemedText style={styles.buttonText}>{t('listshop.button')}</ThemedText>
           </TouchableOpacity>
         </ThemedView>
       </View>

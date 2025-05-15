@@ -30,7 +30,10 @@
     "description": "A desenvolver uma nova funcionalidade para ajudar a organizar as compras de uma forma mais eficiente.",
     "feature1": "Crie listas de compras personalizadas",
     "feature2": "Organize os seus itens por categoria",
-    "feature3": "Sincronize com os seus itens do inventário"
+    "feature3": "Sincronize com os seus itens do inventário",
+    "error": "Erro",
+    "errorMessage": "O item que tentou adicionar já existe.",
+    "button": "OK"
   },
   "login": {
     "title": "Login",

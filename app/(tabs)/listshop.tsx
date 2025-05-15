@@ -1,26 +1,26 @@
+import { AddItemModal } from '@/components/AddItemModal';
 import { ListShopItem } from '@/components/ListShopItem';
+import { ModalError } from '@/components/ModalError';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useGroupedListShop } from '@/hooks/useGroupedListShop';
 import { useTags } from '@/hooks/useTags';
 import { useListShopStore } from '@/store/useListShopStore';
 import { Ionicons } from '@expo/vector-icons';
-import { Picker } from '@react-native-picker/picker';
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Animated, FlatList, Modal, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import { Animated, FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 export default function ListShop() {
   const { t } = useTranslation();
+  const { sections: rawSections, items } = useGroupedListShop();
   const { getAllTags } = useTags();
-  const items = useListShopStore((state) => state.items);
   const addItem = useListShopStore((state) => state.addItem);
   const clear = useListShopStore((state) => state.clear);
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [name, setName] = useState('');
-  const allTags = getAllTags();
-  const [tag, setTag] = useState(allTags[0]?.id || '');
+  const [errorModalVisible, setErrorModalVisible] = useState(false);
   const [isFabExpanded, setIsFabExpanded] = useState(false);
   const animation = useState(new Animated.Value(0))[0];
 
@@ -32,28 +32,18 @@ export default function ListShop() {
     }, [animation])
   );
 
-  // Group items by tag
-  const groupedItems = useMemo(() => {
-    const groups = items.reduce((acc, item) => {
-      const tagLabel = allTags.find(t => t.id === item.tag)?.label || 'Other';
-      if (!acc[tagLabel]) {
-        acc[tagLabel] = [];
-      }
-      acc[tagLabel].push(item);
-      return acc;
-    }, {} as Record<string, typeof items>);
-
-    // Convert to array format for FlatList
-    return Object.entries(groups).map(([title, data]) => ({
-      title,
-      data: data.sort((a, b) => {
+  // Sort sections by checked status
+  const sections = useMemo(() => {
+    return rawSections.map(section => ({
+      ...section,
+      data: section.data.sort((a, b) => {
         const aChecked = checkedIds.includes(a.id);
         const bChecked = checkedIds.includes(b.id);
         if (aChecked === bChecked) return 0;
         return aChecked ? 1 : -1;
       })
     }));
-  }, [items, checkedIds, allTags]);
+  }, [rawSections, checkedIds]);
 
   const handleToggle = (id: string) => {
     setCheckedIds((prev) =>
@@ -65,13 +55,19 @@ export default function ListShop() {
     setModalVisible(true);
   };
 
-  const handleSave = () => {
-    if (name.trim()) {
-      addItem({ name: name.trim(), tag });
-      setName('');
-      setTag(allTags[0]?.id || '');
-      setModalVisible(false);
+  const handleSave = (name: string, tag: string) => {
+    // Check if item with same name already exists
+    const itemExists = items.some(item => 
+      item.name.toLowerCase() === name.toLowerCase()
+    );
+
+    if (itemExists) {
+      setErrorModalVisible(true);
+      return;
     }
+
+    addItem({ name, tag });
+    setModalVisible(false);
   };
 
   const toggleFab = () => {
@@ -88,6 +84,8 @@ export default function ListShop() {
     clear();
     setCheckedIds([]);
     setIsFabExpanded(false);
+    // Reset animation to initial state
+    animation.setValue(0);
   };
 
   const renderSectionHeader = (title: string) => (
@@ -138,7 +136,7 @@ export default function ListShop() {
     <ThemedView style={styles.container}>
       <ThemedText type="title" style={styles.title}>{t('inventory.listshop')}</ThemedText>
       <FlatList
-        data={groupedItems}
+        data={sections}
         keyExtractor={(section) => section.title}
         renderItem={({ item: section }) => (
           <>
@@ -158,52 +156,15 @@ export default function ListShop() {
         contentContainerStyle={styles.listContent}
       />
       {renderFab()}
-      <Modal
+      <AddItemModal
         visible={modalVisible}
-        animationType="slide"
-        transparent
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <ThemedText type="title" style={{ marginBottom: 16 }}>{t('inventory.addItem')}</ThemedText>
-            <TextInput
-              style={styles.input}
-              placeholder={t('inventory.productName')}
-              placeholderTextColor="#000"
-              value={name}
-              onChangeText={setName}
-            />
-            <View style={styles.inputGroup}>
-              <ThemedText style={styles.label}>{t('inventory.selectTag')}</ThemedText>
-              <View style={styles.pickerContainer}>
-                <Picker
-                  selectedValue={tag}
-                  onValueChange={(value: string) => setTag(value)}
-                  style={styles.picker}
-                  mode="dialog"
-                >
-                  {allTags.map((tag) => (
-                    <Picker.Item
-                      key={tag.id}
-                      label={tag.label}
-                      value={tag.id}
-                    />
-                  ))}
-                </Picker>
-              </View>
-            </View>
-            <View style={styles.modalActions}>
-              <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
-                <ThemedText style={styles.cancelText}>{t('inventory.cancel') || 'Cancel'}</ThemedText>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-                <ThemedText style={styles.saveText}>{t('inventory.save')}</ThemedText>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
+        onClose={() => setModalVisible(false)}
+        onSave={handleSave}
+      />
+      <ModalError
+        visible={errorModalVisible}
+        onClose={() => setErrorModalVisible(false)}
+      />
     </ThemedView>
   );
 }
@@ -229,80 +190,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#666',
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContent: {
-    width: '85%',
-    backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 24,
-    alignItems: 'stretch',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 10,
-  },
-  input: {
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
-    marginBottom: 16,
-    color: '#000',
-  },
-  inputGroup: {
-    marginBottom: 16,
-  },
-  label: {
-    marginBottom: 8,
-    fontSize: 16,
-  },
-  pickerContainer: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
-    paddingHorizontal: 4,
-  },
-  picker: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#fff',
-    color: '#000',
-  },
-  modalActions: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginTop: 8,
-    gap: 12,
-  },
-  cancelButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 18,
-    borderRadius: 8,
-    backgroundColor: '#eee',
-  },
-  cancelText: {
-    color: '#888',
-    fontWeight: '600',
-  },
-  saveButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 18,
-    borderRadius: 8,
-    backgroundColor: '#4ECDC4',
-  },
-  saveText: {
-    color: '#fff',
-    fontWeight: '700',
   },
   fabContainer: {
     position: 'absolute',
