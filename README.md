@@ -6,6 +6,10 @@
 [![Zustand](https://img.shields.io/badge/Zustand-764ABC?style=for-the-badge&logo=redux&logoColor=white)](https://github.com/pmndrs/zustand)
 [![i18next](https://img.shields.io/badge/i18next-26A69A?style=for-the-badge&logo=i18next&logoColor=white)](https://www.i18next.com/)
 
+## 📱 Demo
+
+![AppMob Demo](./assets/demo/appMobDemo.gif)
+
 AppMob is a powerful mobile application designed to help you manage your inventory efficiently. With features like item categorization, quantity tracking, multi-language support, and smart shopping lists, it's the perfect tool for keeping your items organized.
 
 ## Topics

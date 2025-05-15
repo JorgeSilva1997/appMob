@@ -22,7 +22,8 @@
     "nameRequired": "Please enter the product name",
     "quantityRequired": "Please enter the quantity",
     "quantityInvalid": "Quantity must be greater than zero",
-    "ok": "OK"
+    "ok": "OK",
+    "cancel": "Cancel"
   },
   "listshop": {
     "comingSoon": "Coming Soon!",
