@@ -1,6 +1,35 @@
 # 📱 AppMob - Your Smart Inventory Manager
 
+[![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactnative.dev/)
+[![Expo](https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white)](https://expo.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Zustand](https://img.shields.io/badge/Zustand-764ABC?style=for-the-badge&logo=redux&logoColor=white)](https://github.com/pmndrs/zustand)
+[![i18next](https://img.shields.io/badge/i18next-26A69A?style=for-the-badge&logo=i18next&logoColor=white)](https://www.i18next.com/)
+
 AppMob is a powerful mobile application designed to help you manage your inventory efficiently. With features like item categorization, quantity tracking, multi-language support, and smart shopping lists, it's the perfect tool for keeping your items organized.
+
+## Topics
+
+- 📱 Mobile Development
+- ⚛️ React Native
+- 🚀 Expo
+- 📦 State Management
+- 🌍 Internationalization
+- 🎨 UI/UX Design
+- 📊 Data Organization
+- 🔄 Real-time Updates
+- 📝 TypeScript
+- 🛠️ Development Tools
+- 📱 Cross-platform
+- 🎯 Performance
+- 🔒 Local Storage
+- 📱 Native Features
+- 🎨 Custom Components
+- 📱 Responsive Design
+- 🔄 Animations
+- 📱 Gesture Handling
+- 🎯 Error Handling
+- 📱 User Experience
 
 ## 🌟 Features
 
