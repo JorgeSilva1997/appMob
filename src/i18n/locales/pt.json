@@ -1,5 +1,7 @@
 {
   "hello": "Olá",
+  "appName": "Stock",
+  "appName2": "-It",
   "inventory": {
     "title": "Inventário",
     "empty": "Nenhum item no inventário",
@@ -23,7 +25,9 @@
     "nameRequired": "Por favor, insira o nome do produto",
     "quantityRequired": "Por favor, insira a quantidade",
     "quantityInvalid": "A quantidade deve ser maior que zero",
-    "ok": "OK"
+    "ok": "OK",
+    "clearAllTitle": "Limpar Tudo",
+    "clearAllMessage": "Tem certeza que deseja limpar todos os itens?"
   },
   "listshop": {
     "comingSoon": "Em Desenvolvimento!",

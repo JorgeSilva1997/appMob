@@ -1,5 +1,7 @@
 {
   "hello": "Hello",
+  "appName": "Stock",
+  "appName2": "-It",
   "inventory": {
     "title": "Inventory",
     "empty": "No items in inventory",
@@ -23,7 +25,9 @@
     "quantityRequired": "Please enter the quantity",
     "quantityInvalid": "Quantity must be greater than zero",
     "ok": "OK",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "clearAllTitle": "Clear All",
+    "clearAllMessage": "Are you sure you want to clear all items?"
   },
   "listshop": {
     "comingSoon": "Coming Soon!",

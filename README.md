@@ -10,6 +10,36 @@
 
 ![AppMob Demo](./assets/demo/appMobDemo.gif)
 
+## ✨ Latest Features
+
+![Stock-it Demo](./assets/demo/Stock-it-gif.gif)
+
+### 🆕 What's New
+
+- **Enhanced Floating Action Button (FAB)**
+  - Smooth spring animations for button expansion
+  - Multiple action buttons (Add, Clear, Search)
+  - Beautiful color-coded buttons for different actions
+  - Improved touch feedback and interactions
+
+- **Smart Search Functionality**
+  - Real-time item filtering
+  - Clean and intuitive search interface
+  - Instant results as you type
+  - Easy to clear and close search
+
+- **Improved Modal Design**
+  - Modern pop-up style modals
+  - Smooth fade animations
+  - Better visual hierarchy
+  - Enhanced user interaction feedback
+
+- **Better User Experience**
+  - Improved empty state messaging
+  - Smoother transitions between screens
+  - Better visual feedback on interactions
+  - More intuitive navigation flow
+
 AppMob is a powerful mobile application designed to help you manage your inventory efficiently. With features like item categorization, quantity tracking, multi-language support, and smart shopping lists, it's the perfect tool for keeping your items organized.
 
 ## Topics

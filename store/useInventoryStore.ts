@@ -1,4 +1,5 @@
 import { Tag } from '@/hooks/useTags';
+import { InventoryItem } from '@/types/inventory';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
@@ -14,49 +15,42 @@ interface InventoryState {
   items: InventoryItem[];
   addItem: (item: Omit<InventoryItem, 'id'>) => void;
   removeItem: (id: string) => void;
-  updateItem: (id: string, item: Omit<InventoryItem, 'id'>) => void;
+  updateItem: (id: string, item: Partial<Omit<InventoryItem, 'id'>>) => void;
+  clearAll: () => void;
 }
 
 export const useInventoryStore = create<InventoryState>()(
   persist(
     (set) => ({
       items: [],
-      addItem: (newItem) =>
-        set((state) => {
-          // Check if an item with the same name and tag already exists
-          const existingItemIndex = state.items.findIndex(
-            (item) => item.name.toLowerCase() === newItem.name.toLowerCase() && item.tag === newItem.tag
-          );
-
-          if (existingItemIndex !== -1) {
-            // If item exists, update its quantity
-            const updatedItems = [...state.items];
-            updatedItems[existingItemIndex] = {
-              ...updatedItems[existingItemIndex],
-              quantity: updatedItems[existingItemIndex].quantity + newItem.quantity,
-            };
-            return { items: updatedItems };
-          }
-
-          // If item doesn't exist, add it as a new item
-          return {
-            items: [...state.items, { ...newItem, id: Date.now().toString() }],
-          };
-        }),
+      addItem: (item) =>
+        set((state) => ({
+          items: [
+            ...state.items,
+            {
+              ...item,
+              id: Math.random().toString(36).substring(7),
+            },
+          ],
+        })),
       removeItem: (id) =>
         set((state) => ({
-          items: state.items.filter((item) => item.id !== id),
+          items: state.items.filter((i) => i.id !== id),
         })),
-      updateItem: (id, updatedItem) =>
+      updateItem: (id, item) =>
         set((state) => ({
-          items: state.items.map((item) =>
-            item.id === id ? { ...updatedItem, id } : item
+          items: state.items.map((i) =>
+            i.id === id ? { ...i, ...item } : i
           ),
+        })),
+      clearAll: () =>
+        set(() => ({
+          items: [],
         })),
     }),
     {
-      name: 'inventory-storage', // unique name for localStorage key
-      storage: createJSONStorage(() => AsyncStorage), // use AsyncStorage
+      name: 'inventory-storage',
+      storage: createJSONStorage(() => AsyncStorage),
     }
   )
 ); 
