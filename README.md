@@ -5,6 +5,8 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Zustand](https://img.shields.io/badge/Zustand-764ABC?style=for-the-badge&logo=redux&logoColor=white)](https://github.com/pmndrs/zustand)
 [![i18next](https://img.shields.io/badge/i18next-26A69A?style=for-the-badge&logo=i18next&logoColor=white)](https://www.i18next.com/)
+[![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
+
 
 ## 📱 Demo
 
@@ -73,6 +75,7 @@ AppMob is a powerful mobile application designed to help you manage your invento
   - Categorize items with custom tags
   - Quick quantity adjustments
   - Beautiful item cards with animations
+  - Real-time synchronization across devices using Firebase
 
 - 🛒 **Smart Shopping List**
   - Create and manage shopping lists
@@ -101,6 +104,13 @@ AppMob is a powerful mobile application designed to help you manage your invento
   - Search functionality in inventory list
   - Shopping list sharing
 
+- 🔥 **Firebase Integration**
+  - Real-time database synchronization
+  - Automatic data updates across devices
+  - Secure data storage
+  - Offline data persistence
+  - Real-time inventory updates
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -111,6 +121,7 @@ AppMob is a powerful mobile application designed to help you manage your invento
 - Android Studio (for Android development)
 - Xcode (for iOS development, macOS only)
 - EAS CLI (`npm install -g eas-cli`)
+- Firebase account and project
 
 ### Installation
 
@@ -127,7 +138,20 @@ AppMob is a powerful mobile application designed to help you manage your invento
    yarn install
    ```
 
-3. Start the development server
+3. **Important: Firebase Configuration**
+   Create a `.env` file in the root directory with your Firebase configuration:
+   ```env
+   FIREBASE_API_KEY=your_api_key
+   FIREBASE_PROJECT_ID=your_project_id
+   FIREBASE_DATABASE=https://your-project-id.firebaseio.com
+   FIREBASE_STORAGE_BUCKET=your-project-id.appspot.com
+   FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+   FIREBASE_APP_ID=your_app_id
+   ```
+   
+   > ⚠️ **Note**: The `.env` file is not included in the repository for security reasons. You must create your own Firebase project and add your configuration details. You can find these values in your Firebase Console under Project Settings.
+
+4. Start the development server
    ```bash
    npx expo start
    ```
@@ -203,6 +227,7 @@ appMob/
 - i18next (Internationalization)
 - React Navigation
 - TypeScript
+- Firebase (Real-time Database)
 
 ### Available Scripts
 
