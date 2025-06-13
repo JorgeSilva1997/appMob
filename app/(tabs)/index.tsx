@@ -5,11 +5,12 @@ import { SearchBar } from '@/components/SearchBar';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useGroupedInventory } from '@/hooks/useGroupedInventory';
+// import { useNetworkStatus } from '@/hooks/useNetworkStatus';
 import { useInventoryStore } from '@/store/useInventoryStore';
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import { router } from 'expo-router';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Animated, FlatList, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native';
 
@@ -18,12 +19,18 @@ export default function HomeScreen() {
   const { sections, items } = useGroupedInventory();
   const addItem = useInventoryStore((state) => state.addItem);
   const clearAll = useInventoryStore((state) => state.clearAll);
+  const fetchItems = useInventoryStore((state) => state.fetchItems);
   const [modalVisible, setModalVisible] = useState(false);
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [isFabExpanded, setIsFabExpanded] = useState(false);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const animation = useState(new Animated.Value(0))[0];
+  // const isConnected = useNetworkStatus();
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
 
   // Reset FAB state when screen comes into focus
   useFocusEffect(
@@ -138,6 +145,8 @@ export default function HomeScreen() {
 
   return (
     <ThemedView style={styles.container}>
+      {/* {<NoNetworkBanner />} */}
+      {/* {!isConnected && <NoNetworkBanner />} */}
       {isSearchVisible ? (
         <SearchBar
           value={searchQuery}
